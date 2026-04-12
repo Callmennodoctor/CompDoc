@@ -7,6 +7,16 @@ const nextSlideBtn = document.querySelector(".slider-btn.next");
 const faqItems = Array.from(document.querySelectorAll(".faq-item"));
 const requestForm = document.querySelector("#request-form");
 const formStatus = document.querySelector(".form-status");
+const blogContainer = document.querySelector("#blog-posts");
+const blogStatus = document.querySelector("#blog-status");
+
+const dguvForm = document.querySelector("#dguv-form");
+const dguvStatus = document.querySelector("#dguv-status");
+const dguvResult = document.querySelector("#dguv-result");
+const totalHoursEl = document.querySelector("#total-hours");
+const doctorHoursEl = document.querySelector("#doctor-hours");
+const safetyHoursEl = document.querySelector("#safety-hours");
+const minShareEl = document.querySelector("#min-share");
 
 if (menuToggle && siteNav) {
   menuToggle.addEventListener("click", () => {
@@ -28,7 +38,6 @@ let activeSlide = 0;
 
 function renderSlide(index) {
   if (testimonials.length === 0) return;
-
   activeSlide = (index + testimonials.length) % testimonials.length;
   testimonials.forEach((slide, idx) => {
     slide.classList.toggle("is-active", idx === activeSlide);
@@ -49,7 +58,6 @@ faqItems.forEach((item) => {
   trigger?.setAttribute("aria-expanded", "false");
   trigger?.addEventListener("click", () => {
     const isOpen = item.classList.contains("open");
-
     faqItems.forEach((entry) => {
       entry.classList.remove("open");
       const entryTrigger = entry.querySelector(".faq-trigger");
@@ -98,4 +106,124 @@ requestForm?.addEventListener("submit", (event) => {
   requestForm.reset();
 });
 
+async function loadBlogPosts() {
+  if (!blogContainer || !blogStatus) return;
+  blogStatus.textContent = "Lade Blogbeitraege...";
+
+  try {
+    const response = await fetch("./data/blog-posts.json", { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error("Blogdaten konnten nicht geladen werden.");
+    }
+
+    const payload = await response.json();
+    const posts = Array.isArray(payload.posts) ? payload.posts : [];
+
+    if (posts.length === 0) {
+      blogStatus.textContent = "Es wurden keine Blogbeitraege gefunden.";
+      return;
+    }
+
+    blogStatus.textContent = `${posts.length} Blogbeitraege von compdocs.de geladen.`;
+    const fragment = document.createDocumentFragment();
+
+    posts.slice(0, 12).forEach((post) => {
+      const card = document.createElement("article");
+      card.className = "blog-card";
+
+      const title = document.createElement("h3");
+      title.textContent = post.title || "Blogbeitrag";
+
+      const excerpt = document.createElement("p");
+      excerpt.textContent = post.excerpt || post.seoDescription || "";
+
+      const link = document.createElement("a");
+      link.href = post.url || "#";
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "Zum Beitrag";
+
+      card.appendChild(title);
+      card.appendChild(excerpt);
+      card.appendChild(link);
+      fragment.appendChild(card);
+    });
+
+    blogContainer.innerHTML = "";
+    blogContainer.appendChild(fragment);
+  } catch (error) {
+    blogStatus.textContent = `Fehler beim Laden der Blogdaten: ${error.message}`;
+  }
+}
+
+function formatHours(value) {
+  return Number(value).toLocaleString("de-DE", {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  });
+}
+
+function calculateDguv(assignmentGroup, employees) {
+  const factors = {
+    I: 2.5,
+    II: 1.5,
+    III: 0.5,
+  };
+  const factor = factors[assignmentGroup];
+  if (!factor) {
+    throw new Error("Unbekannte Betreuungsgruppe.");
+  }
+
+  const total = employees * factor;
+  const minPerService = Math.max(total * 0.2, employees * 0.2);
+  const remaining = Math.max(total - minPerService, 0);
+  const doctor = minPerService + remaining / 2;
+  const safety = minPerService + remaining / 2;
+
+  return {
+    total,
+    doctor,
+    safety,
+    minPerService,
+  };
+}
+
+dguvForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (!dguvStatus || !dguvResult) return;
+
+  const data = new FormData(dguvForm);
+  const assignmentGroup = String(data.get("group") || "");
+  const employees = Number(data.get("employees"));
+
+  if (!assignmentGroup || !Number.isFinite(employees) || employees < 1) {
+    dguvStatus.textContent =
+      "Bitte waehlen Sie eine Betreuungsgruppe und geben Sie mindestens 1 Mitarbeitenden an.";
+    dguvStatus.classList.remove("is-success");
+    dguvStatus.classList.add("is-error");
+    dguvResult.hidden = true;
+    return;
+  }
+
+  try {
+    const result = calculateDguv(assignmentGroup, employees);
+    totalHoursEl.textContent = `${formatHours(result.total)} h/Jahr`;
+    doctorHoursEl.textContent = `${formatHours(result.doctor)} h/Jahr`;
+    safetyHoursEl.textContent = `${formatHours(result.safety)} h/Jahr`;
+    minShareEl.textContent = `${formatHours(result.minPerService)} h/Jahr`;
+
+    dguvStatus.textContent =
+      "Berechnung erfolgreich. Werte basieren auf DGUV Vorschrift 2 (Grundbetreuung).";
+    dguvStatus.classList.remove("is-error");
+    dguvStatus.classList.add("is-success");
+    dguvResult.hidden = false;
+  } catch (error) {
+    dguvStatus.textContent = error.message;
+    dguvStatus.classList.remove("is-success");
+    dguvStatus.classList.add("is-error");
+    dguvResult.hidden = true;
+  }
+});
+
 renderSlide(0);
+loadBlogPosts();

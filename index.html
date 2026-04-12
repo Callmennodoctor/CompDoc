@@ -41,9 +41,11 @@
             <li><a href="#leistungen">Leistungen</a></li>
             <li><a href="#warum">Warum IAAI</a></li>
             <li><a href="#team">Team</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#dguv2-rechner">DGUV2 Rechner</a></li>
             <li><a href="#faq">FAQ</a></li>
             <li><a href="#kontakt">Kontakt</a></li>
-            <li><a class="btn btn-primary" href="#anfrage">Angebot anfordern</a></li>
+            <li><a class="btn btn-primary nav-btn" href="#anfrage">Angebot anfordern</a></li>
           </ul>
         </nav>
       </div>
@@ -55,7 +57,7 @@
           <div class="hero-copy">
             <p class="eyebrow">365 Tage im Jahr fuer Sie da</p>
             <h1>Erfahrene Betriebsaerzte und Sicherheitsingenieure fuer Ihr Unternehmen</h1>
-            <p>
+            <p class="hero-lead">
               Wir sind Ihr Partner fuer alle arbeitsmedizinischen und sicherheitstechnischen
               Fragestellungen. Vor Ort und digital in ganz Deutschland.
             </p>
@@ -198,13 +200,77 @@
               </article>
             </div>
             <div class="carousel-controls">
-              <button class="carousel-btn slider-btn prev" type="button" aria-label="Zurueck">
-                &#8592;
-              </button>
-              <button class="carousel-btn slider-btn next" type="button" aria-label="Weiter">
-                &#8594;
-              </button>
+              <button class="slider-btn prev" type="button" aria-label="Zurueck">&#8592;</button>
+              <button class="slider-btn next" type="button" aria-label="Weiter">&#8594;</button>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="blog" class="section section-alt">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">CompDocs Blog</p>
+              <h2>Aktuelle Fachbeitraege aus Arbeitsmedizin und Arbeitssicherheit</h2>
+            </div>
+            <a class="btn btn-secondary" href="https://www.compdocs.de/blog-uebersicht" target="_blank" rel="noopener noreferrer">Zur Blog-Uebersicht</a>
+          </div>
+          <p class="section-intro">
+            Diese Inhalte werden aus der Webflow API geladen und lokal auf dieser Seite dargestellt.
+          </p>
+          <div class="blog-grid" id="blog-grid">
+            <p class="blog-loading">Blogdaten werden geladen...</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="dguv2-rechner" class="section">
+        <div class="container">
+          <p class="eyebrow">DGUV V2 Einsatzzeitenrechner</p>
+          <h2>Grundbetreuung schnell berechnen</h2>
+          <p class="section-intro">
+            Berechnet werden die jaehrlichen Einsatzzeiten auf Basis der Betreuungsgruppe nach DGUV
+            Vorschrift 2. Die Aufteilung erfolgt mit Mindestanteil von 20 Prozent je
+            Leistungserbringer.
+          </p>
+          <div class="dguv-grid">
+            <form id="dguv-form" class="dguv-form">
+              <label>
+                Betreuungsgruppe *
+                <select name="group" required>
+                  <option value="">Bitte waehlen</option>
+                  <option value="I">Gruppe I (2,5 h / Jahr / MA)</option>
+                  <option value="II">Gruppe II (1,5 h / Jahr / MA)</option>
+                  <option value="III">Gruppe III (0,5 h / Jahr / MA)</option>
+                </select>
+              </label>
+              <label>
+                Anzahl Mitarbeiter *
+                <input type="number" name="employees" min="1" step="1" required />
+              </label>
+              <button type="submit" class="btn btn-primary">Jetzt berechnen</button>
+              <p class="form-status" id="dguv-status" aria-live="polite"></p>
+            </form>
+
+            <article class="dguv-result" id="dguv-result" aria-live="polite">
+              <h3>Ergebnis</h3>
+              <p class="muted">Bitte zuerst Gruppe und Mitarbeiterzahl eingeben.</p>
+              <dl>
+                <div>
+                  <dt>Gesamtstunden / Jahr</dt>
+                  <dd id="result-total">-</dd>
+                </div>
+                <div>
+                  <dt>Betriebsarzt (mind. 20%)</dt>
+                  <dd id="result-doctor">-</dd>
+                </div>
+                <div>
+                  <dt>Fachkraft ASi (mind. 20%)</dt>
+                  <dd id="result-safety">-</dd>
+                </div>
+              </dl>
+            </article>
           </div>
         </div>
       </section>

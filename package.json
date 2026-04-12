@@ -7,6 +7,7 @@
     "start": "python3 -m http.server 4173",
     "webflow:list": "node scripts/webflow.mjs list-sites",
     "webflow:domains": "node scripts/webflow.mjs list-domains",
-    "webflow:publish": "node scripts/webflow.mjs publish-site"
+    "webflow:publish": "node scripts/webflow.mjs publish-site",
+    "compdocs:import": "node scripts/import-compdocs.mjs"
   }
 }
