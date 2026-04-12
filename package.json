@@ -1,0 +1,12 @@
+{
+  "name": "iaai-clone-webflow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "IAAI style landing page with Webflow API helper scripts",
+  "scripts": {
+    "start": "python3 -m http.server 4173",
+    "webflow:list": "node scripts/webflow.mjs list-sites",
+    "webflow:domains": "node scripts/webflow.mjs list-domains",
+    "webflow:publish": "node scripts/webflow.mjs publish-site"
+  }
+}
