@@ -3,11 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>IAAI | Arbeitsmedizin und Arbeitssicherheit</title>
+    <title>IAAI | Arbeitsmedizin, Arbeitssicherheit und DGUV2 Rechner</title>
     <meta
       name="description"
+      content="IAAI bietet arbeitsmedizinische und sicherheitstechnische Betreuung in ganz Deutschland. Mit integriertem DGUV2-Einsatzzeitenrechner und aktuellen Fachbeitraegen."
+    />
+    <meta
+      name="keywords"
+      content="Arbeitsmedizin, Arbeitssicherheit, Betriebsarzt, DGUV Vorschrift 2, DGUV2 Rechner, Gefaehrdungsbeurteilung"
+    />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta name="author" content="IAAI Arbeitssicherheit GmbH" />
+    <link rel="canonical" href="https://www.iaai.de/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content="IAAI Arbeitssicherheit" />
+    <meta property="og:title" content="IAAI | Arbeitsmedizin, Arbeitssicherheit und DGUV2 Rechner" />
+    <meta
+      property="og:description"
       content="Erfahrene Betriebsaerzte und Sicherheitsingenieure fuer Ihr Unternehmen. Vor Ort und digital in ganz Deutschland."
     />
+    <meta property="og:url" content="https://www.iaai.de/" />
+    <meta
+      property="og:image"
+      content="https://images.unsplash.com/photo-1511174511562-5f7f18b874f8?auto=format&fit=crop&w=1200&q=80"
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="IAAI | Arbeitsmedizin, Arbeitssicherheit und DGUV2 Rechner" />
+    <meta
+      name="twitter:description"
+      content="Ganzheitliche Betreuung in Arbeitsmedizin und Arbeitssicherheit inklusive DGUV2-Rechner."
+    />
+    <meta
+      name="twitter:image"
+      content="https://images.unsplash.com/photo-1511174511562-5f7f18b874f8?auto=format&fit=crop&w=1200&q=80"
+    />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,11 +48,46 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "IAAI Arbeitssicherheit GmbH",
+        "url": "https://www.iaai.de/",
+        "logo": "https://www.iaai.de/favicon.ico",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Rossfeldstr. 102",
+          "postalCode": "83471",
+          "addressLocality": "Berchtesgaden",
+          "addressCountry": "DE"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "kontakt@example.de",
+          "telephone": "+49 0000 000000",
+          "availableLanguage": ["German"]
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "IAAI Arbeitssicherheit",
+        "url": "https://www.iaai.de/",
+        "inLanguage": "de-DE"
+      }
+    </script>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Zum Hauptinhalt springen</a>
+
     <header class="site-header">
       <div class="container header-inner">
-        <a href="#top" class="brand">
+        <a href="#top" class="brand" aria-label="Zur Startseite IAAI">
           <span class="brand-badge">IA</span>
           <span class="brand-text">
             <span class="brand-name">IAAI</span>
@@ -31,12 +99,13 @@
           id="menu-toggle"
           class="menu-toggle"
           aria-expanded="false"
+          aria-controls="site-nav"
           aria-label="Navigation oeffnen"
         >
           &#9776;
         </button>
 
-        <nav id="site-nav" class="main-nav">
+        <nav id="site-nav" class="main-nav" aria-label="Hauptnavigation">
           <ul>
             <li><a href="#leistungen">Leistungen</a></li>
             <li><a href="#warum">Warum IAAI</a></li>
@@ -51,8 +120,8 @@
       </div>
     </header>
 
-    <main id="top">
-      <section class="hero">
+    <main id="main-content">
+      <section class="hero" id="top">
         <div class="container hero-grid">
           <div class="hero-copy">
             <p class="eyebrow">365 Tage im Jahr fuer Sie da</p>
@@ -85,6 +154,7 @@
             <img
               src="https://images.unsplash.com/photo-1511174511562-5f7f18b874f8?auto=format&fit=crop&w=1200&q=80"
               alt="Beratung zur Arbeitssicherheit"
+              loading="eager"
             />
             <figcaption>
               Wir unterstuetzen Unternehmen bei Arbeitsmedizin und Arbeitssicherheit aus einer Hand.
@@ -214,14 +284,19 @@
               <p class="eyebrow">CompDocs Blog</p>
               <h2>Aktuelle Fachbeitraege aus Arbeitsmedizin und Arbeitssicherheit</h2>
             </div>
-            <a class="btn btn-secondary" href="https://www.compdocs.de/blog-uebersicht" target="_blank" rel="noopener noreferrer">Zur Blog-Uebersicht</a>
+            <a
+              class="btn btn-secondary"
+              href="https://www.compdocs.de/blog-uebersicht"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Zur Blog-Uebersicht</a
+            >
           </div>
           <p class="section-intro">
             Diese Inhalte werden aus der Webflow API geladen und lokal auf dieser Seite dargestellt.
           </p>
-          <div class="blog-grid" id="blog-grid">
-            <p class="blog-loading">Blogdaten werden geladen...</p>
-          </div>
+          <p class="blog-empty" id="blog-status">Blogdaten werden geladen...</p>
+          <div class="blog-grid" id="blog-posts"></div>
         </div>
       </section>
 
@@ -234,44 +309,53 @@
             Vorschrift 2. Die Aufteilung erfolgt mit Mindestanteil von 20 Prozent je
             Leistungserbringer.
           </p>
-          <div class="dguv-grid">
-            <form id="dguv-form" class="dguv-form">
-              <label>
-                Betreuungsgruppe *
-                <select name="group" required>
+
+          <div class="calculator-grid">
+            <article class="dguv-card">
+              <form id="dguv-form" class="dguv-form" novalidate>
+                <label for="group">Betreuungsgruppe *</label>
+                <select id="group" name="group" required>
                   <option value="">Bitte waehlen</option>
                   <option value="I">Gruppe I (2,5 h / Jahr / MA)</option>
                   <option value="II">Gruppe II (1,5 h / Jahr / MA)</option>
                   <option value="III">Gruppe III (0,5 h / Jahr / MA)</option>
                 </select>
-              </label>
-              <label>
-                Anzahl Mitarbeiter *
-                <input type="number" name="employees" min="1" step="1" required />
-              </label>
-              <button type="submit" class="btn btn-primary">Jetzt berechnen</button>
-              <p class="form-status" id="dguv-status" aria-live="polite"></p>
-            </form>
 
-            <article class="dguv-result" id="dguv-result" aria-live="polite">
-              <h3>Ergebnis</h3>
-              <p class="muted">Bitte zuerst Gruppe und Mitarbeiterzahl eingeben.</p>
-              <dl>
-                <div>
-                  <dt>Gesamtstunden / Jahr</dt>
-                  <dd id="result-total">-</dd>
+                <label for="employees">Anzahl Mitarbeiter *</label>
+                <input id="employees" name="employees" type="number" min="1" required />
+
+                <button class="btn btn-primary" type="submit">Jetzt berechnen</button>
+                <p id="dguv-status" class="dguv-error" aria-live="polite"></p>
+              </form>
+            </article>
+
+            <article class="result-card" id="dguv-result" hidden>
+              <h3>Berechnungsergebnis</h3>
+              <div class="result-grid">
+                <div class="result-metric">
+                  <span class="result-label">Gesamtstunden / Jahr</span>
+                  <strong class="result-value" id="total-hours">-</strong>
                 </div>
-                <div>
-                  <dt>Betriebsarzt (mind. 20%)</dt>
-                  <dd id="result-doctor">-</dd>
+                <div class="result-metric">
+                  <span class="result-label">Betriebsarzt</span>
+                  <strong class="result-value" id="doctor-hours">-</strong>
                 </div>
-                <div>
-                  <dt>Fachkraft ASi (mind. 20%)</dt>
-                  <dd id="result-safety">-</dd>
+                <div class="result-metric">
+                  <span class="result-label">Fachkraft ASi</span>
+                  <strong class="result-value" id="safety-hours">-</strong>
                 </div>
-              </dl>
+              </div>
+              <p class="result-help">
+                Mindestanteil je Leistungserbringer laut 20%-Regel:
+                <strong id="min-share">-</strong>
+              </p>
             </article>
           </div>
+
+          <aside class="disclaimer">
+            Hinweis: Der Rechner bildet die Grundbetreuung ab. Betriebliche Besonderheiten und
+            betriebsspezifische Betreuung sind zusaetzlich zu bewerten.
+          </aside>
         </div>
       </section>
 
@@ -327,7 +411,7 @@
       <section id="anfrage" class="section">
         <div class="container contact-grid">
           <article class="contact-card">
-            <h3>Kostenloses Angebot anfordern</h3>
+            <h2>Kostenloses Angebot anfordern</h2>
             <p>
               Fuellen Sie die Pflichtfelder aus. Wir melden uns kurzfristig mit einem unverbindlichen
               Angebot zur arbeitsmedizinischen und sicherheitstechnischen Betreuung.
@@ -339,7 +423,7 @@
             </ul>
           </article>
 
-          <form id="request-form" class="contact-form">
+          <form id="request-form" class="contact-form" novalidate>
             <h3>Kontaktformular</h3>
             <p>Pflichtfelder sind mit * markiert.</p>
             <div class="input-grid">

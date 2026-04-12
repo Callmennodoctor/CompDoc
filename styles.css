@@ -27,6 +27,27 @@ body {
   scroll-behavior: smooth;
 }
 
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  width: auto;
+  height: auto;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  z-index: 1000;
+}
+
 a {
   color: inherit;
 }
@@ -271,6 +292,13 @@ h2 {
   gap: 1rem;
 }
 
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1rem;
+}
+
 .card,
 .feature,
 .blog-card,
@@ -506,6 +534,11 @@ h2 {
   color: var(--muted);
 }
 
+.muted {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
 .contact-list {
   padding-left: 1rem;
   margin: 0.8rem 0 0;
@@ -570,6 +603,11 @@ h2 {
   .features,
   .blog-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .section-head {
+    align-items: start;
+    flex-direction: column;
   }
 }
 

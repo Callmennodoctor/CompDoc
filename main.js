@@ -6,17 +6,14 @@ const prevSlideBtn = document.querySelector(".slider-btn.prev");
 const nextSlideBtn = document.querySelector(".slider-btn.next");
 const faqItems = Array.from(document.querySelectorAll(".faq-item"));
 const requestForm = document.querySelector("#request-form");
-const formStatus = document.querySelector(".form-status");
-const blogContainer = document.querySelector("#blog-posts");
-const blogStatus = document.querySelector("#blog-status");
-
+const formStatus = document.querySelector("#form-status");
+const blogGrid = document.querySelector("#blog-grid");
 const dguvForm = document.querySelector("#dguv-form");
 const dguvStatus = document.querySelector("#dguv-status");
 const dguvResult = document.querySelector("#dguv-result");
-const totalHoursEl = document.querySelector("#total-hours");
-const doctorHoursEl = document.querySelector("#doctor-hours");
-const safetyHoursEl = document.querySelector("#safety-hours");
-const minShareEl = document.querySelector("#min-share");
+const resultTotal = document.querySelector("#result-total");
+const resultDoctor = document.querySelector("#result-doctor");
+const resultSafety = document.querySelector("#result-safety");
 
 if (menuToggle && siteNav) {
   menuToggle.addEventListener("click", () => {
@@ -54,10 +51,11 @@ if (testimonials.length > 1) {
 faqItems.forEach((item) => {
   const trigger = item.querySelector(".faq-trigger");
   const indicator = trigger?.querySelector("span:last-child");
-
   trigger?.setAttribute("aria-expanded", "false");
+
   trigger?.addEventListener("click", () => {
     const isOpen = item.classList.contains("open");
+
     faqItems.forEach((entry) => {
       entry.classList.remove("open");
       const entryTrigger = entry.querySelector(".faq-trigger");
@@ -100,15 +98,24 @@ requestForm?.addEventListener("submit", (event) => {
   }
 
   formStatus.textContent =
-    "Vielen Dank. Ihre Anfrage wurde lokal geprueft und kann jetzt an Webflow gesendet werden.";
+    "Vielen Dank. Ihre Anfrage wurde lokal geprueft und kann jetzt an Ihr Backend gesendet werden.";
   formStatus.classList.remove("is-error");
   formStatus.classList.add("is-success");
   requestForm.reset();
 });
 
+function toDateLabel(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleDateString("de-DE", {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+  });
+}
+
 async function loadBlogPosts() {
-  if (!blogContainer || !blogStatus) return;
-  blogStatus.textContent = "Lade Blogbeitraege...";
+  if (!blogGrid) return;
 
   try {
     const response = await fetch("./data/blog-posts.json", { cache: "no-store" });
@@ -120,19 +127,23 @@ async function loadBlogPosts() {
     const posts = Array.isArray(payload.posts) ? payload.posts : [];
 
     if (posts.length === 0) {
-      blogStatus.textContent = "Es wurden keine Blogbeitraege gefunden.";
+      blogGrid.innerHTML = '<p class="blog-loading">Keine Blogdaten verfuegbar.</p>';
       return;
     }
 
-    blogStatus.textContent = `${posts.length} Blogbeitraege von compdocs.de geladen.`;
+    const topPosts = posts.slice(0, 9);
     const fragment = document.createDocumentFragment();
 
-    posts.slice(0, 12).forEach((post) => {
+    topPosts.forEach((post) => {
       const card = document.createElement("article");
       card.className = "blog-card";
 
-      const title = document.createElement("h3");
-      title.textContent = post.title || "Blogbeitrag";
+      const heading = document.createElement("h3");
+      heading.textContent = post.title || "Blogbeitrag";
+
+      const meta = document.createElement("p");
+      meta.className = "muted";
+      meta.textContent = `${toDateLabel(post.fetchedAt)} | CompDocs`;
 
       const excerpt = document.createElement("p");
       excerpt.textContent = post.excerpt || post.seoDescription || "";
@@ -141,18 +152,19 @@ async function loadBlogPosts() {
       link.href = post.url || "#";
       link.target = "_blank";
       link.rel = "noopener noreferrer";
-      link.textContent = "Zum Beitrag";
+      link.textContent = "Beitrag lesen";
 
-      card.appendChild(title);
+      card.appendChild(heading);
+      card.appendChild(meta);
       card.appendChild(excerpt);
       card.appendChild(link);
       fragment.appendChild(card);
     });
 
-    blogContainer.innerHTML = "";
-    blogContainer.appendChild(fragment);
+    blogGrid.innerHTML = "";
+    blogGrid.appendChild(fragment);
   } catch (error) {
-    blogStatus.textContent = `Fehler beim Laden der Blogdaten: ${error.message}`;
+    blogGrid.innerHTML = `<p class="blog-loading">Fehler beim Laden: ${error.message}</p>`;
   }
 }
 
@@ -163,29 +175,25 @@ function formatHours(value) {
   });
 }
 
-function calculateDguv(assignmentGroup, employees) {
-  const factors = {
+function calculateDguv(group, employees) {
+  const rates = {
     I: 2.5,
     II: 1.5,
     III: 0.5,
   };
-  const factor = factors[assignmentGroup];
-  if (!factor) {
-    throw new Error("Unbekannte Betreuungsgruppe.");
+
+  const rate = rates[group];
+  if (!rate) {
+    throw new Error("Bitte eine gueltige Betreuungsgruppe waehlen.");
   }
 
-  const total = employees * factor;
-  const minPerService = Math.max(total * 0.2, employees * 0.2);
-  const remaining = Math.max(total - minPerService, 0);
-  const doctor = minPerService + remaining / 2;
-  const safety = minPerService + remaining / 2;
+  const total = employees * rate;
+  const minShare = Math.max(total * 0.2, employees * 0.2);
+  const remaining = Math.max(total - 2 * minShare, 0);
+  const doctor = minShare + remaining / 2;
+  const safety = minShare + remaining / 2;
 
-  return {
-    total,
-    doctor,
-    safety,
-    minPerService,
-  };
+  return { total, doctor, safety };
 }
 
 dguvForm?.addEventListener("submit", (event) => {
@@ -193,36 +201,26 @@ dguvForm?.addEventListener("submit", (event) => {
   if (!dguvStatus || !dguvResult) return;
 
   const data = new FormData(dguvForm);
-  const assignmentGroup = String(data.get("group") || "");
+  const group = String(data.get("group") || "");
   const employees = Number(data.get("employees"));
 
-  if (!assignmentGroup || !Number.isFinite(employees) || employees < 1) {
+  if (!group || !Number.isFinite(employees) || employees < 1) {
     dguvStatus.textContent =
-      "Bitte waehlen Sie eine Betreuungsgruppe und geben Sie mindestens 1 Mitarbeitenden an.";
+      "Bitte Betreuungsgruppe und mindestens 1 Mitarbeiter eintragen.";
     dguvStatus.classList.remove("is-success");
     dguvStatus.classList.add("is-error");
-    dguvResult.hidden = true;
     return;
   }
 
-  try {
-    const result = calculateDguv(assignmentGroup, employees);
-    totalHoursEl.textContent = `${formatHours(result.total)} h/Jahr`;
-    doctorHoursEl.textContent = `${formatHours(result.doctor)} h/Jahr`;
-    safetyHoursEl.textContent = `${formatHours(result.safety)} h/Jahr`;
-    minShareEl.textContent = `${formatHours(result.minPerService)} h/Jahr`;
+  const result = calculateDguv(group, employees);
+  resultTotal.textContent = `${formatHours(result.total)} h`;
+  resultDoctor.textContent = `${formatHours(result.doctor)} h`;
+  resultSafety.textContent = `${formatHours(result.safety)} h`;
 
-    dguvStatus.textContent =
-      "Berechnung erfolgreich. Werte basieren auf DGUV Vorschrift 2 (Grundbetreuung).";
-    dguvStatus.classList.remove("is-error");
-    dguvStatus.classList.add("is-success");
-    dguvResult.hidden = false;
-  } catch (error) {
-    dguvStatus.textContent = error.message;
-    dguvStatus.classList.remove("is-success");
-    dguvStatus.classList.add("is-error");
-    dguvResult.hidden = true;
-  }
+  dguvStatus.textContent = "Berechnung erfolgreich.";
+  dguvStatus.classList.remove("is-error");
+  dguvStatus.classList.add("is-success");
+  dguvResult.hidden = false;
 });
 
 renderSlide(0);

@@ -75,3 +75,19 @@ Berechnung:
 - Fachkraftstunden = Gesamtstunden - Mindestanteil
 
 Hinweis: Für eine realvertragliche Ausgestaltung muss die betriebs­spezifische Betreuung zusätzlich bewertet werden.
+
+## SEO-Setup
+
+Die Landingpage enthält technische und inhaltliche SEO-Grundlagen:
+
+- eindeutige `title` und `meta description`
+- Canonical-URL
+- OpenGraph- und Twitter-Metadaten
+- strukturierte Daten (Schema.org: `Organization`, `WebSite`, `FAQPage`)
+- semantische Struktur mit klarer Heading-Hierarchie und `main`/`nav`/`section`-Landmarks
+- `robots.txt` und `sitemap.xml`
+
+Dateien:
+
+- `robots.txt`
+- `sitemap.xml`
