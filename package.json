@@ -8,6 +8,7 @@
     "webflow:list": "node scripts/webflow.mjs list-sites",
     "webflow:domains": "node scripts/webflow.mjs list-domains",
     "webflow:publish": "node scripts/webflow.mjs publish-site",
-    "compdocs:import": "node scripts/import-compdocs.mjs"
+    "compdocs:import": "node scripts/import-compdocs.mjs",
+    "webflow:iaai:seo": "node scripts/sync-iaai-seo.mjs"
   }
 }

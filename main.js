@@ -7,13 +7,16 @@ const nextSlideBtn = document.querySelector(".slider-btn.next");
 const faqItems = Array.from(document.querySelectorAll(".faq-item"));
 const requestForm = document.querySelector("#request-form");
 const formStatus = document.querySelector("#form-status");
-const blogGrid = document.querySelector("#blog-grid");
+const blogGrid = document.querySelector("#blog-posts");
+const blogStatus = document.querySelector("#blog-status");
+
 const dguvForm = document.querySelector("#dguv-form");
 const dguvStatus = document.querySelector("#dguv-status");
 const dguvResult = document.querySelector("#dguv-result");
-const resultTotal = document.querySelector("#result-total");
-const resultDoctor = document.querySelector("#result-doctor");
-const resultSafety = document.querySelector("#result-safety");
+const totalHoursEl = document.querySelector("#total-hours");
+const doctorHoursEl = document.querySelector("#doctor-hours");
+const safetyHoursEl = document.querySelector("#safety-hours");
+const minShareEl = document.querySelector("#min-share");
 
 if (menuToggle && siteNav) {
   menuToggle.addEventListener("click", () => {
@@ -55,7 +58,6 @@ faqItems.forEach((item) => {
 
   trigger?.addEventListener("click", () => {
     const isOpen = item.classList.contains("open");
-
     faqItems.forEach((entry) => {
       entry.classList.remove("open");
       const entryTrigger = entry.querySelector(".faq-trigger");
@@ -115,7 +117,8 @@ function toDateLabel(value) {
 }
 
 async function loadBlogPosts() {
-  if (!blogGrid) return;
+  if (!blogGrid || !blogStatus) return;
+  blogStatus.textContent = "Lade Blogbeitraege...";
 
   try {
     const response = await fetch("./data/blog-posts.json", { cache: "no-store" });
@@ -127,7 +130,7 @@ async function loadBlogPosts() {
     const posts = Array.isArray(payload.posts) ? payload.posts : [];
 
     if (posts.length === 0) {
-      blogGrid.innerHTML = '<p class="blog-loading">Keine Blogdaten verfuegbar.</p>';
+      blogStatus.textContent = "Keine Blogdaten verfuegbar.";
       return;
     }
 
@@ -152,6 +155,7 @@ async function loadBlogPosts() {
       link.href = post.url || "#";
       link.target = "_blank";
       link.rel = "noopener noreferrer";
+      link.className = "blog-link";
       link.textContent = "Beitrag lesen";
 
       card.appendChild(heading);
@@ -163,8 +167,9 @@ async function loadBlogPosts() {
 
     blogGrid.innerHTML = "";
     blogGrid.appendChild(fragment);
+    blogStatus.textContent = `${posts.length} Blogbeitraege geladen.`;
   } catch (error) {
-    blogGrid.innerHTML = `<p class="blog-loading">Fehler beim Laden: ${error.message}</p>`;
+    blogStatus.textContent = `Fehler beim Laden: ${error.message}`;
   }
 }
 
@@ -193,7 +198,7 @@ function calculateDguv(group, employees) {
   const doctor = minShare + remaining / 2;
   const safety = minShare + remaining / 2;
 
-  return { total, doctor, safety };
+  return { total, doctor, safety, minShare };
 }
 
 dguvForm?.addEventListener("submit", (event) => {
@@ -209,13 +214,16 @@ dguvForm?.addEventListener("submit", (event) => {
       "Bitte Betreuungsgruppe und mindestens 1 Mitarbeiter eintragen.";
     dguvStatus.classList.remove("is-success");
     dguvStatus.classList.add("is-error");
+    dguvResult.hidden = true;
     return;
   }
 
   const result = calculateDguv(group, employees);
-  resultTotal.textContent = `${formatHours(result.total)} h`;
-  resultDoctor.textContent = `${formatHours(result.doctor)} h`;
-  resultSafety.textContent = `${formatHours(result.safety)} h`;
+  if (!totalHoursEl || !doctorHoursEl || !safetyHoursEl || !minShareEl) return;
+  totalHoursEl.textContent = `${formatHours(result.total)} h`;
+  doctorHoursEl.textContent = `${formatHours(result.doctor)} h`;
+  safetyHoursEl.textContent = `${formatHours(result.safety)} h`;
+  minShareEl.textContent = `${formatHours(result.minShare)} h`;
 
   dguvStatus.textContent = "Berechnung erfolgreich.";
   dguvStatus.classList.remove("is-error");

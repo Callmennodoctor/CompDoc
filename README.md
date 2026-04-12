@@ -42,7 +42,11 @@ WEBFLOW_SITE_ID=...
 npm run webflow:list
 npm run webflow:domains -- --site <siteId>
 npm run webflow:publish -- --site <siteId> --subdomain true
+npm run webflow:sync-seo
 ```
+
+`npm run webflow:sync-seo` aktualisiert die SEO-/OpenGraph-Daten der IAAI-Startseite
+über die Webflow API (`PUT /v2/pages/{pageId}`) und triggert danach ein Publish.
 
 ### CompDocs Blog-Import
 
