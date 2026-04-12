@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 const BASE_URL = "https://api.webflow.com/v2";
-const IAAI_SITE_ID = "69db6c1efbacd7363b1589fc";
-const HOMEPAGE_PATH = "/";
+const DEFAULT_SITE_ID = "69db6c1efbacd7363b1589fc";
 
 function readEnv(name) {
   const value = process.env[name];
@@ -10,6 +9,10 @@ function readEnv(name) {
     throw new Error(`Missing environment variable: ${name}`);
   }
   return value;
+}
+
+function siteIdFromEnv() {
+  return process.env.WEBFLOW_SITE_ID || DEFAULT_SITE_ID;
 }
 
 async function webflowRequest(path, options = {}) {
@@ -42,14 +45,14 @@ async function webflowRequest(path, options = {}) {
   return data;
 }
 
-async function findHomepageId() {
-  const payload = await webflowRequest(`/sites/${IAAI_SITE_ID}/pages?limit=100&offset=0`);
+async function findHomepage(siteId) {
+  const payload = await webflowRequest(`/sites/${siteId}/pages?limit=100&offset=0`);
   const pages = payload?.pages || [];
-  const home = pages.find((page) => page.publishedPath === HOMEPAGE_PATH);
+  const home = pages.find((page) => page.publishedPath === "/");
   if (!home) {
-    throw new Error("Homepage for IAAI site not found.");
+    throw new Error("Homepage in Webflow site not found.");
   }
-  return home.id;
+  return home;
 }
 
 async function updateHomepageSeo(pageId) {
@@ -61,22 +64,36 @@ async function updateHomepageSeo(pageId) {
     },
     openGraph: {
       title: "IAAI Arbeitssicherheit GmbH | Betreuung fuer Ihr Unternehmen",
+      titleCopied: false,
       description:
         "Erfahrene Betriebsaerzte und Sicherheitsingenieure fuer Unternehmen in ganz Deutschland. Jetzt Angebot anfordern.",
+      descriptionCopied: false,
     },
   };
 
   return webflowRequest(`/pages/${pageId}`, {
-    method: "PATCH",
+    method: "PUT",
     body: JSON.stringify(body),
   });
 }
 
 async function main() {
-  const pageId = await findHomepageId();
-  console.log(`Homepage-ID gefunden: ${pageId}`);
-  await updateHomepageSeo(pageId);
+  const siteId = siteIdFromEnv();
+  const home = await findHomepage(siteId);
+  console.log(`Homepage-ID gefunden: ${home.id}`);
+  const result = await updateHomepageSeo(home.id);
   console.log("SEO-Settings der IAAI-Homepage aktualisiert.");
+  console.log(
+    JSON.stringify(
+      {
+        pageId: result.id,
+        seo: result.seo,
+        openGraph: result.openGraph,
+      },
+      null,
+      2
+    )
+  );
 }
 
 main().catch((error) => {

@@ -9,7 +9,6 @@ const requestForm = document.querySelector("#request-form");
 const formStatus = document.querySelector("#form-status");
 const blogGrid = document.querySelector("#blog-posts");
 const blogStatus = document.querySelector("#blog-status");
-
 const dguvForm = document.querySelector("#dguv-form");
 const dguvStatus = document.querySelector("#dguv-status");
 const dguvResult = document.querySelector("#dguv-result");
@@ -155,7 +154,6 @@ async function loadBlogPosts() {
       link.href = post.url || "#";
       link.target = "_blank";
       link.rel = "noopener noreferrer";
-      link.className = "blog-link";
       link.textContent = "Beitrag lesen";
 
       card.appendChild(heading);
@@ -193,12 +191,12 @@ function calculateDguv(group, employees) {
   }
 
   const total = employees * rate;
-  const minShare = Math.max(total * 0.2, employees * 0.2);
-  const remaining = Math.max(total - 2 * minShare, 0);
-  const doctor = minShare + remaining / 2;
-  const safety = minShare + remaining / 2;
+  const minPerService = Math.max(total * 0.2, employees * 0.2);
+  const remaining = Math.max(total - 2 * minPerService, 0);
+  const doctor = minPerService + remaining / 2;
+  const safety = minPerService + remaining / 2;
 
-  return { total, doctor, safety, minShare };
+  return { total, doctor, safety, minPerService };
 }
 
 dguvForm?.addEventListener("submit", (event) => {
@@ -219,11 +217,10 @@ dguvForm?.addEventListener("submit", (event) => {
   }
 
   const result = calculateDguv(group, employees);
-  if (!totalHoursEl || !doctorHoursEl || !safetyHoursEl || !minShareEl) return;
-  totalHoursEl.textContent = `${formatHours(result.total)} h`;
-  doctorHoursEl.textContent = `${formatHours(result.doctor)} h`;
-  safetyHoursEl.textContent = `${formatHours(result.safety)} h`;
-  minShareEl.textContent = `${formatHours(result.minShare)} h`;
+  if (totalHoursEl) totalHoursEl.textContent = `${formatHours(result.total)} h`;
+  if (doctorHoursEl) doctorHoursEl.textContent = `${formatHours(result.doctor)} h`;
+  if (safetyHoursEl) safetyHoursEl.textContent = `${formatHours(result.safety)} h`;
+  if (minShareEl) minShareEl.textContent = `${formatHours(result.minPerService)} h`;
 
   dguvStatus.textContent = "Berechnung erfolgreich.";
   dguvStatus.classList.remove("is-error");
