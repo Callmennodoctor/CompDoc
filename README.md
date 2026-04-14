@@ -95,3 +95,31 @@ Dateien:
 
 - `robots.txt`
 - `sitemap.xml`
+
+## Google Stitch: 1:1-Generierung (lokal)
+
+Mit dem vorhandenen Skript kannst du eine neue Stitch-Version der Seite aus einem
+ausführlichen Prompt erzeugen und als HTML lokal ablegen.
+
+1) Einmalig SDK installieren:
+
+```bash
+npm install
+```
+
+2) Stitch-API-Key setzen:
+
+```bash
+export STITCH_API_KEY="..."
+```
+
+3) Generierung ausführen:
+
+```bash
+npm run stitch:generate:iaai
+```
+
+Ergebnisse:
+
+- `stitch-output/iaai-stitch.html`
+- `stitch-output/iaai-stitch-meta.json`
