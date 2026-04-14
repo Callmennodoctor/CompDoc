@@ -1,0 +1,18 @@
+{
+  "name": "iaai-clone-webflow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "IAAI style landing page with Webflow API helper scripts",
+  "scripts": {
+    "start": "python3 -m http.server 4173",
+    "webflow:list": "node scripts/webflow.mjs list-sites",
+    "webflow:domains": "node scripts/webflow.mjs list-domains",
+    "webflow:publish": "node scripts/webflow.mjs publish-site",
+    "compdocs:import": "node scripts/import-compdocs.mjs",
+    "webflow:iaai:seo": "node scripts/sync-iaai-seo.mjs",
+    "stitch:generate:iaai": "node scripts/generate-iaai-stitch.mjs"
+  },
+  "dependencies": {
+    "@google/stitch-sdk": "^0.1.0"
+  }
+}
