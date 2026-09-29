@@ -1,0 +1,155 @@
+Antonia Behr
+Für Eltern
+Für Kinder
+Für dich
+Ablauf und Kosten
+Über mich
+Kontakt
+030 [Nummer]
+Styleguide
+
+Farbtokens, Schriftskala, Buttons, Formularzustände und Etiketten für die Übergabe an Webflow.
+
+Farbe
+
+Papier
+
+oklch(98.5% 0.004 250)
+#FAFBFD
+
+Grundfläche
+
+Karolinie
+
+oklch(88% 0.03 240)
+#CBD8E8
+
+Raster und Linien
+
+Tinte
+
+oklch(25% 0.05 260)
+#1B2540
+
+Text und Überschriften
+
+Heftblau
+
+oklch(45% 0.13 255)
+#2F5BA8
+
+Eltern, Handlungen, Links
+
+Heftgrün
+
+oklch(62% 0.12 150)
+#4E9A68
+
+Kinder, Text darauf in Tinte
+
+Heftviolett
+
+oklch(45% 0.14 300)
+#6A47A0
+
+Jugendliche, Fehlerzustände
+
+Textmarker
+
+oklch(92% 0.17 105)
+#F2EA4A
+
+Nur hinter harten Fakten
+
+Papier auf Heftblau
+Papier auf Heftviolett
+Tinte auf Heftgrün
+Sekundär auf Blau
+Sekundär auf Violett
+Textmarker nur hinter harten Fakten
+Karoraster 5 mm
+Schrift
+H1, bis 6rem
+Für die Familie drumherum
+H2, 2.75rem
+Wobei ich begleite
+H3, 1.3125rem
+Erstgespräch
+Fließtext, 18 px
+Atkinson Hyperlegible Next. Sie ist für Lesbarkeit entwickelt. Kinder, Menschen mit Leseschwäche und Eltern mit wenig Deutschkenntnissen lesen mit.
+Ziffern
+08:45 bis 10:00 Uhr, 100,55 €, 116 111
+Buttons
+Standard
+Rückruf anfragen
+Hover
+Rückruf anfragen
+Fokus
+Rückruf anfragen
+Gedrückt
+Rückruf anfragen
+Lädt
+Wird gesendet …
+Deaktiviert
+Rückruf anfragen
+Sekundär
+030 [Nummer]
+Textlink
+So läuft eine Therapie ab
+Formularzustände
+Leer
+Fokus
+Marie K
+Ausgefüllt
+030 1234567
+Fehler
+12a
+Bitte nur eine Zahl zwischen 0 und 21 eintragen, zum Beispiel 9.
+Deaktiviert
+Leer (Aktuelles)
+Derzeit gibt es keine Meldungen.
+
+Fehler werden in Heftviolett gesetzt, nie in Rot. Die Meldung nennt das Problem und den Ausweg.
+
+Etiketten
+
+Stand 29.09.2026
+
+Erstgespräche möglich
+
+Stand 29.09.2026
+
+Warteliste offen, derzeit etwa [X] Monate
+
+Stand 29.09.2026
+
+Warteliste bis [Monat] geschlossen
+
+Für Eltern
+Für Kinder
+Für dich
+
+Statusetikett als Webflow-CMS-Feld mit drei Optionen, Datum und Monatsangabe als eigene Felder. Die Vorschau lässt sich über die Tweaks umschalten.
+
+Bilder zum Austausch
+Porträt: Frau Behr sitzend auf Augenhöhe im Praxisraum, Tageslicht, kühle Weißbalance (Start, Über mich)
+Handschrift: Scan eines Satzes in Frau Behrs Handschrift, freigestellt (Start)
+Anfahrt: Kartenausschnitt oder Foto vom Hauseingang (Kontakt)
+Später möglich: Hefte und Stifte auf dem Tisch, Hände an Bauklötzen, Rucksack an der Garderobe. Kinder nie mit Gesicht.
+
+Diese Praxis bietet keinen Notfalldienst. In akuten Krisen: 112, Berliner Krisendienst, Nummer gegen Kummer 116 111.
+
+Antonia Behr
+
+Kinder- und Jugendlichenpsychotherapeutin
+[Straße], [PLZ] Berlin-Mitte
+
+Telefonzeiten
+
+Mo bis Do, 08:45 bis 10:00 Uhr
+030 [Nummer]
+
+Im Notfall
+Impressum
+Datenschutz
+Erklärung zur Barrierefreiheit
