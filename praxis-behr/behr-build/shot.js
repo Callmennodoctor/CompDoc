@@ -1,0 +1,2 @@
+const { chromium } = require('/opt/node22/lib/node_modules/playwright');
+(async()=>{const b=await chromium.launch();for(const [n,w] of [['d',1440],['m',390]]){const p=await b.newPage({viewport:{width:w,height:900}});await p.goto('file://'+process.cwd()+'/'+process.argv[2]+'_preview.html');await p.waitForTimeout(800);await p.screenshot({path:process.argv[2]+'_'+n+'.png',fullPage:true});}await b.close();})();

@@ -1,0 +1,31 @@
+<style>
+#bh-cb{position:fixed;left:16px;right:16px;bottom:16px;z-index:9999;max-width:560px;margin-left:auto;margin-right:auto;background:#fff;color:#1B2540;border:1.5px solid #1B2540;border-radius:6px;box-shadow:0 8px 24px rgba(27,37,64,.18);padding:20px 22px;font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;font-size:1rem;line-height:1.5}
+#bh-cb[hidden]{display:none}
+#bh-cb h2{margin:0 0 8px;font-family:Gabarito,system-ui,sans-serif;font-weight:700;font-size:1.1875rem;line-height:1.25;color:#1B2540}
+#bh-cb p{margin:0 0 16px}
+#bh-cb a{color:#2F5BA8;text-decoration:underline;text-underline-offset:.2em}
+#bh-cb .bh-cb-row{display:flex;flex-wrap:wrap;gap:8px}
+#bh-cb button{flex:1 1 160px;min-height:48px;padding:0 18px;border-radius:6px;border:1.5px solid #2F5BA8;font-family:Gabarito,system-ui,sans-serif;font-weight:600;font-size:1rem;cursor:pointer}
+#bh-cb .bh-cb-no{background:#fff;color:#2F5BA8}
+#bh-cb .bh-cb-yes{background:#2F5BA8;color:#FAFBFD}
+#bh-cb button:hover{background:#1B2540;border-color:#1B2540;color:#FAFBFD}
+#bh-cb button:focus-visible,#bh-cb a:focus-visible{outline:2px solid #2F5BA8;outline-offset:2px}
+</style>
+<script>
+(function(){
+var K='bh_consent_v1',SRC='https://analytics.ahrefs.com/analytics.js',KEY='3ZS3Q1zbSoTTjFYSZtsQWg';
+function get(){try{return localStorage.getItem(K)}catch(e){return null}}
+function put(v){try{localStorage.setItem(K,v)}catch(e){}}
+function load(){if(document.getElementById('bh-ahrefs'))return;var s=document.createElement('script');s.id='bh-ahrefs';s.src=SRC;s.async=true;s.setAttribute('data-key',KEY);document.head.appendChild(s)}
+function box(){var b=document.getElementById('bh-cb');if(b)return b;b=document.createElement('div');b.id='bh-cb';b.setAttribute('role','dialog');b.setAttribute('aria-labelledby','bh-cb-h');b.hidden=true;
+b.innerHTML='<h2 id="bh-cb-h">Darf ich die Nutzung dieser Seite messen?</h2><p>Mit Ihrer Zustimmung zählt Ahrefs Web Analytics ohne Cookies, welche Seiten aufgerufen werden. Die Daten werden auch in Singapur verarbeitet. Ohne Zustimmung funktioniert die Seite genauso. Mehr dazu in der <a href="/datenschutz">Datenschutzerklärung</a>.</p><div class="bh-cb-row"><button type="button" class="bh-cb-no">Ablehnen</button><button type="button" class="bh-cb-yes">Zustimmen</button></div>';
+b.querySelector('.bh-cb-no').onclick=function(){put('denied');b.hidden=true};
+b.querySelector('.bh-cb-yes').onclick=function(){put('granted');b.hidden=true;load()};
+document.body.appendChild(b);return b}
+function open(){var b=box();b.hidden=false;b.querySelector('.bh-cb-yes').focus()}
+window.bhConsent={open:open,reset:function(){try{localStorage.removeItem(K)}catch(e){};open()}};
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href="#datenschutz-einstellungen"]');if(a){e.preventDefault();open()}});
+function init(){var c=get();if(c==='granted')load();else if(c!=='denied'){box().hidden=false}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>

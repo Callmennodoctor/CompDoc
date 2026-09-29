@@ -1,0 +1,12 @@
+const { chromium } = require('/opt/node22/lib/node_modules/playwright');
+(async()=>{const b=await chromium.launch();const ctx=await b.newContext({viewport:{width:390,height:844}});const p=await ctx.newPage();
+const reqs=[];p.on('request',r=>{if(r.url().includes('ahrefs'))reqs.push(r.url())});
+await p.goto('file://'+process.cwd()+'/consent_test.html');await p.waitForTimeout(500);
+console.log('visible',await p.isVisible('#bh-cb'),'reqs',reqs.length);
+await p.screenshot({path:'consent_m.png'});
+await p.click('.bh-cb-no');console.log('after no visible',await p.isVisible('#bh-cb'),'reqs',reqs.length);
+await p.reload();await p.waitForTimeout(300);console.log('reload denied visible',await p.isVisible('#bh-cb'));
+await p.click('a[href="#datenschutz-einstellungen"]');console.log('reopen',await p.isVisible('#bh-cb'));
+await p.click('.bh-cb-yes');await p.waitForTimeout(300);console.log('granted reqs',reqs.length);
+await p.reload();await p.waitForTimeout(300);console.log('reload granted visible',await p.isVisible('#bh-cb'),'script',await p.$('#bh-ahrefs')!==null);
+await b.close();})();
